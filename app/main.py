@@ -36,13 +36,10 @@ def chat(req: ChatRequest):
         return run_turn(req.messages, catalog)
     except Exception as e:
         import traceback
-        tb = traceback.format_exc()
+        traceback.print_exc()
         raise HTTPException(
             status_code=500,
-            detail={
-                "error": str(e),
-                "type": type(e).__name__,
-                "traceback": tb
-            }
+            detail=f"Agent error: {e}"
         ) from e
+
 
