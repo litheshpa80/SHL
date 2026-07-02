@@ -1,0 +1,68 @@
+[
+  {
+    "name": "Java 8 (New)",
+    "url": "https://www.shl.com/solutions/products/product-catalog/view/core-java-entry-level-new/",
+    "test_type": "K",
+    "description": "Assesses core Java programming knowledge for entry to mid-level developers, covering syntax, OOP, and standard libraries.",
+    "duration_minutes": 20,
+    "remote_testing": true,
+    "adaptive_irt": false,
+    "job_levels": ["Entry-Level", "Mid-Professional"],
+    "languages": ["English"]
+  },
+  {
+    "name": "OPQ32r",
+    "url": "https://www.shl.com/solutions/products/product-catalog/view/opq32r/",
+    "test_type": "P",
+    "description": "Occupational Personality Questionnaire measuring 32 personality characteristics relevant to workplace performance and style, including interaction with stakeholders.",
+    "duration_minutes": 25,
+    "remote_testing": true,
+    "adaptive_irt": false,
+    "job_levels": ["Mid-Professional", "Manager"],
+    "languages": ["English", "Spanish", "French"]
+  },
+  {
+    "name": "General Skills Assessment (GSA)",
+    "url": "https://www.shl.com/solutions/products/product-catalog/view/general-skills-assessment/",
+    "test_type": "A",
+    "description": "Measures general cognitive ability including verbal, numerical, and inductive reasoning to predict on-the-job learning speed.",
+    "duration_minutes": 30,
+    "remote_testing": true,
+    "adaptive_irt": true,
+    "job_levels": ["Entry-Level", "Mid-Professional", "Manager"],
+    "languages": ["English"]
+  },
+  {
+    "name": "SQL Server (New)",
+    "url": "https://www.shl.com/solutions/products/product-catalog/view/sql-server-new/",
+    "test_type": "K",
+    "description": "Evaluates SQL Server database skills including querying, joins, and stored procedures for developer and DBA roles.",
+    "duration_minutes": 20,
+    "remote_testing": true,
+    "adaptive_irt": false,
+    "job_levels": ["Mid-Professional"],
+    "languages": ["English"]
+  },
+  {
+    "name": "Verify Interactive - Inductive Reasoning",
+    "url": "https://www.shl.com/solutions/products/product-catalog/view/verify-interactive-inductive-reasoning/",
+    "test_type": "A",
+    "description": "Interactive, game-based measure of inductive reasoning and problem-solving ability, adaptive difficulty.",
+    "duration_minutes": 12,
+    "remote_testing": true,
+    "adaptive_irt": true,
+    "job_levels": ["Entry-Level", "Graduate"],
+    "languages": ["English", "German"]
+  },
+  {
+    "name": "Situational Judgement Test - Customer Service",
+    "url": "https://www.shl.com/solutions/products/product-catalog/view/sjt-customer-service/",
+    "test_type": "B",
+    "description": "Presents realistic customer service scenarios to assess judgment and decision-making style in service-oriented roles.",
+    "duration_minutes": 15,
+    "remote_testing": true,
+    "adaptive_irt": false,
+    "job_levels": ["Entry-Level", "Mid-Professional"],
+    "languages": ["English"]
+  }
+]
