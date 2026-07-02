@@ -34,6 +34,8 @@ class Catalog:
         return " ".join(
             [
                 item.name,
+                item.name,
+                item.name,
                 item.description,
                 item.test_type,
                 " ".join(item.job_levels),
@@ -49,12 +51,43 @@ class Catalog:
             raise ValueError(f"Catalog at {path} is empty")
         return cls(items)
 
-    def search(self, query: str, top_k: int = 10) -> List[CatalogItem]:
+    def search(self, query: str, top_k: int = 10, test_type_filter: str = None) -> List[CatalogItem]:
         if not query.strip():
             return []
-        scores = self._bm25.get_scores(_tokenize(query))
+            
+        expanded_query = query.lower()
+        synonyms = {
+            "personality": "OPQ occupational trait behavioral",
+            "culture fit": "OPQ occupational trait behavioral",
+            "behavioral style": "OPQ occupational trait behavioral",
+            "numerical": "verify numerical calculation statistics",
+            "quant": "verify numerical calculation statistics",
+            "situational judgement": "SJT judgement scenario",
+            "reasoning": "verify ability aptitude cognitive",
+            "aptitude": "verify ability cognitive",
+            "cognitive": "verify ability reasoning",
+            "coding": "technical skill programming",
+            "technical skill": "coding programming"
+        }
+        
+        for k, v in synonyms.items():
+            if k in expanded_query:
+                expanded_query += f" {v}"
+                
+        scores = self._bm25.get_scores(_tokenize(expanded_query))
         ranked = sorted(range(len(self.items)), key=lambda i: scores[i], reverse=True)
-        return [self.items[i] for i in ranked[:top_k] if scores[i] > 0]
+        
+        results = []
+        for i in ranked:
+            if scores[i] <= 0:
+                continue
+            item = self.items[i]
+            if test_type_filter and item.test_type != test_type_filter:
+                continue
+            results.append(item)
+            if len(results) >= top_k:
+                break
+        return results
 
     def find_by_name(self, name: str) -> CatalogItem | None:
         """Fuzzy-ish exact/substring lookup, used for comparison queries."""
