@@ -32,4 +32,17 @@ def chat(req: ChatRequest):
         catalog = get_catalog()
     except Exception as e:  # noqa: BLE001
         raise HTTPException(status_code=500, detail=f"catalog unavailable: {e}") from e
-    return run_turn(req.messages, catalog)
+    try:
+        return run_turn(req.messages, catalog)
+    except Exception as e:
+        import traceback
+        tb = traceback.format_exc()
+        raise HTTPException(
+            status_code=500,
+            detail={
+                "error": str(e),
+                "type": type(e).__name__,
+                "traceback": tb
+            }
+        ) from e
+
