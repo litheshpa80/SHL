@@ -21,7 +21,17 @@ def get_catalog() -> Catalog:
 
 @app.get("/health")
 def health():
-    return {"status": "ok"}
+    try:
+        catalog = get_catalog()
+        size = len(catalog.items)
+    except Exception as e:
+        size = f"Error loading: {e}"
+    return {
+        "status": "ok",
+        "catalog_path": CATALOG_PATH,
+        "catalog_items_loaded": size
+    }
+
 
 
 @app.post("/chat", response_model=ChatResponse)
