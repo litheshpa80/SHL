@@ -68,13 +68,12 @@ Pick between 1 and 10 candidates total that best fit every constraint
 mentioned in the conversation (role, skill, seniority, test type,
 duration, etc), respecting the refinement rule above.
 
-DOMAIN MAPPING RULES:
-- If the user asks for "personality", "culture fit", or "behavioral style", heavily prioritize the "Occupational Personality Questionnaire OPQ32r" if it is in the candidate list.
-- If the user asks for "quantitative", "statistics", or "financial analysts", prioritize specific knowledge tests like "Basic Statistics (New)" or "Financial Accounting (New)" if present.
-
-When multiple candidates seem similar, prefer the one whose name or
-description most precisely matches the user's stated skill or domain;
-do not default to the first plausible-sounding option.
+Include EVERY candidate whose test_type or description clearly matches a skill/
+trait/competency the user mentioned — this can mean including MULTIPLE items
+of the same test_type if they're all relevant (e.g. both a general personality
+test AND a role-specific personality report can both belong in the same shortlist).
+Do not drop a previously-relevant candidate just to make room for a new one unless
+they're clearly redundant.
 Respond ONLY with JSON:
 {
   "reply": str,                 // 1-3 sentences. MUST explicitly name every
@@ -176,8 +175,8 @@ def run_turn(messages: List[Message], catalog: Catalog) -> ChatResponse:
                         candidates.append(r)
                         seen_candidates.add(r.name.lower())
     
-    # c) cap combined candidate pool at 30
-    candidates = candidates[:30]
+    # c) cap combined candidate pool at 15
+    candidates = candidates[:15]
     if not candidates:
         return ChatResponse(
             reply=(
@@ -191,7 +190,7 @@ def run_turn(messages: List[Message], catalog: Catalog) -> ChatResponse:
 
     candidate_text = "\n".join(
         f"- name: {c.name} | test_type: {c.test_type} | duration_min: {c.duration_minutes} "
-        f"| description: {c.description}"
+        f"| description: {c.description[:120] + '...' if len(c.description) > 120 else c.description}"
         for c in candidates
     )
     selection = call_json(

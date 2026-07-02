@@ -104,10 +104,20 @@ def recall_at_k(expected: list[str], got: list[dict], k: int = 10) -> float:
     return hits / len(expected)
 
 
+import argparse
+
 def main():
-    trace_paths = sorted(glob.glob(os.path.join(os.path.dirname(__file__), "traces", "*.json")))
+    parser = argparse.ArgumentParser(description="Run SHL evaluation suite")
+    parser.add_argument("--trace", type=str, help="Path to a single trace JSON file to evaluate")
+    args = parser.parse_args()
+
+    if args.trace:
+        trace_paths = [args.trace]
+    else:
+        trace_paths = sorted(glob.glob(os.path.join(os.path.dirname(__file__), "traces", "*.json")))
+        
     if not trace_paths:
-        print("No traces found in eval/traces/. Drop the provided trace JSON files there.")
+        print("No traces found. Drop the provided trace JSON files in eval/traces/ or specify --trace.")
         sys.exit(1)
 
     results = []
