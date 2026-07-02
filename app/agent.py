@@ -45,11 +45,29 @@ SELECT_SYSTEM = """You are finalizing an SHL assessment shortlist.
 You will be given the conversation and a list of CANDIDATE assessments
 (already retrieved from the real catalog — these are the ONLY assessments
 that exist, you must not invent or reference any other name).
-Pick between 1 and 10 candidates that best fit every constraint mentioned
-in the conversation (role, skill, seniority, test type, duration, etc).
+
+IMPORTANT — refinement rule: if the conversation already contains a
+previous shortlist you (the assistant) gave earlier, treat those items as
+a starting point. Keep every item from that prior shortlist UNLESS the
+user explicitly asked to remove, replace, or narrow it. When the user
+asks to "also add X" or "actually add X", that means ADD to the existing
+list, not replace it. Only drop a previously-listed item if the user's
+new constraints make it clearly inapplicable (e.g. they removed a skill
+area entirely) or explicitly asked to remove it.
+
+Pick between 1 and 10 candidates total that best fit every constraint
+mentioned in the conversation (role, skill, seniority, test type,
+duration, etc), respecting the refinement rule above.
 Respond ONLY with JSON:
 {
-  "reply": str,                 // 1-3 sentences, natural, no markdown lists
+  "reply": str,                 // 1-3 sentences. MUST explicitly name every
+                                 // chosen assessment by its exact catalog
+                                 // name (e.g. "...OPQ32r for stakeholder
+                                 // fit and SQL Server (New) for..."). This
+                                 // is required so a future turn can see
+                                 // what was recommended, since the raw
+                                 // recommendations list is not replayed
+                                 // back into conversation history.
   "chosen_names": [str],        // exact "name" strings copied from candidates
   "end_of_conversation": bool   // true once you've delivered a shortlist
 }
