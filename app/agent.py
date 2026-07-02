@@ -67,6 +67,11 @@ area entirely) or explicitly asked to remove it.
 Pick between 1 and 10 candidates total that best fit every constraint
 mentioned in the conversation (role, skill, seniority, test type,
 duration, etc), respecting the refinement rule above.
+
+DOMAIN MAPPING RULES:
+- If the user asks for "personality", "culture fit", or "behavioral style", heavily prioritize the "Occupational Personality Questionnaire OPQ32r" if it is in the candidate list.
+- If the user asks for "quantitative", "statistics", or "financial analysts", prioritize specific knowledge tests like "Basic Statistics (New)" or "Financial Accounting (New)" if present.
+
 When multiple candidates seem similar, prefer the one whose name or
 description most precisely matches the user's stated skill or domain;
 do not default to the first plausible-sounding option.
