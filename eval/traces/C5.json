@@ -1,0 +1,20 @@
+{
+  "persona": "As part of our restructuring and annual talent audit, we need to re-skill our Sales organization. What solutions do you recommend?",
+  "facts": {
+    "role": "As part of our restructuring and annual talent audit, we need to re-skill our Sales organization. What solutions do you recommend?",
+    "seniority": "",
+    "skills": [],
+    "constraints": [
+      "What’s the difference between OPQ and OPQ MQ Sales Report?",
+      "Clear. We’ll use OPQ for everyone and add MQ only where we want motivators in the Sales Report; keeping the five solutions as our audit stack."
+    ]
+  },
+  "expected_shortlist": [
+    "Global Skills Assessment",
+    "Global Skills Development Report",
+    "Occupational Personality Questionnaire OPQ32r",
+    "OPQ MQ Sales Report",
+    "Sales Transformation 2.0 - Individual Contributor"
+  ],
+  "opening_message": "As part of our restructuring and annual talent audit, we need to re-skill our Sales organization. What solutions do you recommend?"
+}

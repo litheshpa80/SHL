@@ -1,0 +1,19 @@
+{
+  "persona": "We need a solution for senior leadership.",
+  "facts": {
+    "role": "We need a solution for senior leadership.",
+    "seniority": "",
+    "skills": [],
+    "constraints": [
+      "The pool consists of CXOs, director-level postions; people with more than 15 years of experience.",
+      "Selection — comparing candidates against a leadership benchmark.",
+      "Perfect, that's what we need."
+    ]
+  },
+  "expected_shortlist": [
+    "Occupational Personality Questionnaire OPQ32r",
+    "OPQ Universal Competency Report 2.0",
+    "OPQ Leadership Report"
+  ],
+  "opening_message": "We need a solution for senior leadership."
+}

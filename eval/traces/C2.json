@@ -1,0 +1,20 @@
+{
+  "persona": "I'm hiring a senior Rust engineer for high-performance networking infrastructure. What assessments should I use?",
+  "facts": {
+    "role": "I'm hiring a senior Rust engineer for high-performance networking infrastructure. What assessments should I use?",
+    "seniority": "",
+    "skills": [],
+    "constraints": [
+      "Yes, go ahead. Should I also add a cognitive test for this level?",
+      "That works. Thanks."
+    ]
+  },
+  "expected_shortlist": [
+    "Smart Interview Live Coding",
+    "Linux Programming (General)",
+    "Networking and Implementation (New)",
+    "SHL Verify Interactive G+",
+    "Occupational Personality Questionnaire OPQ32r"
+  ],
+  "opening_message": "I'm hiring a senior Rust engineer for high-performance networking infrastructure. What assessments should I use?"
+}
