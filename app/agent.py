@@ -31,6 +31,10 @@ Read the full conversation and classify it. Respond ONLY with JSON:
                                    // mentioned anywhere in the conversation so far:
                                    // role, skills, seniority, test types wanted,
                                    // duration limits, remote/adaptive needs, etc.
+  "search_phrases": [str],         // 3-5 short standalone alternatives for catalog
+                                   // search, using semantic synonyms such as
+                                   // upskilling, skills-gap analysis, or workforce
+                                   // development when the user's wording may differ
   "has_enough_context": bool,     // true once role/skill area is known, even if
                                    // some details are still missing
   "missing_info": [str],          // at most 2 short questions to ask if not enough context
@@ -58,6 +62,9 @@ area entirely) or explicitly asked to remove it.
 Pick between 1 and 10 candidates total that best fit every constraint
 mentioned in the conversation (role, skill, seniority, test type,
 duration, etc), respecting the refinement rule above.
+When multiple candidates seem similar, prefer the one whose name or
+description most precisely matches the user's stated skill or domain;
+do not default to the first plausible-sounding option.
 Respond ONLY with JSON:
 {
   "reply": str,                 // 1-3 sentences. MUST explicitly name every
@@ -130,7 +137,37 @@ def run_turn(messages: List[Message], catalog: Catalog) -> ChatResponse:
         return ChatResponse(reply=question, recommendations=[], end_of_conversation=False)
 
     query = scope.get("requirements_summary") or history
-    candidates = catalog.search(query, top_k=15)
+    search_phrases = scope.get("search_phrases") or []
+    if not isinstance(search_phrases, list):
+        search_phrases = []
+    queries = [query]
+    seen_queries = {query.lower().strip()}
+    for phrase in search_phrases[:5]:
+        phrase = str(phrase).strip()
+        normalized = phrase.lower()
+        if phrase and normalized not in seen_queries:
+            queries.append(phrase)
+            seen_queries.add(normalized)
+
+    # Keep all 30 primary-query results, then fairly interleave expansion
+    # results. This recovers semantic/synonym matches without sending an
+    # unbounded candidate list to the selection model.
+    pools = [catalog.search(search_query, top_k=30) for search_query in queries]
+    candidates = list(pools[0])
+    seen_candidates = {candidate.name.lower() for candidate in candidates}
+    for rank in range(30):
+        for pool in pools[1:]:
+            if len(candidates) >= 60:
+                break
+            if rank >= len(pool):
+                continue
+            candidate = pool[rank]
+            normalized = candidate.name.lower()
+            if normalized not in seen_candidates:
+                candidates.append(candidate)
+                seen_candidates.add(normalized)
+        if len(candidates) >= 60:
+            break
     if not candidates:
         return ChatResponse(
             reply=(
